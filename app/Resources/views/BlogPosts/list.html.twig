@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+   <table class="table table-hover table-responsive">
+      <head>
+         <th>id</th>
+         <th>title</th>
+         <th>Options</th>
+      </head>
+      <tbody>
+      {% for post in posts %}
+         <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ post.title }}</td>
+            <td>
+               <a href="" class="btn btn-default btn-sm">Edit</a>
+               <a href="" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+         </tr>
+      {% endfor %}
+      </tbody>
+
+   </table>
+
+{% endblock %}
