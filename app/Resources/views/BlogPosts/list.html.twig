@@ -14,8 +14,8 @@
             <td>{{ post.id }}</td>
             <td>{{ post.title }}</td>
             <td>
-               <a href="" class="btn btn-default btn-sm">Edit</a>
-               <a href="" class="btn btn-danger btn-sm">Delete</a>
+               <a href="{{ path('edit', {'blogPost': post.id}) }}" class="btn btn-default btn-sm">Edit</a>
+               <a href="{{ path('delete', {'blogPost': post.id}) }}" class="btn btn-danger btn-sm">Delete</a>
             </td>
          </tr>
       {% endfor %}

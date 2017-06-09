@@ -1,0 +1,3 @@
+blog_posts:
+    type: res
+    resource: AppBundle\Controller\BlogPostsController

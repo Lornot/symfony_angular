@@ -9,3 +9,17 @@ list:
 create:
     path: /create
     defaults: {_controller: AppBundle:BlogPost:create}
+
+edit:
+    path: /edit/{blogPost}
+    defaults: {_controller: AppBundle:BlogPost:edit}
+
+delete:
+    path: /delete/{blogPost}
+    defaults: {_controller: AppBundle:BlogPost:delete}
+
+
+api:
+    type: rest
+    resource: "routing_api.yml
+
