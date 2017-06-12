@@ -19,7 +19,11 @@ delete:
     defaults: {_controller: AppBundle:BlogPost:delete}
 
 
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix: "/doc"
+
+
 api:
     type: rest
-    resource: "routing_api.yml
-
+    resource: "routing_api.yml"

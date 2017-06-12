@@ -1,3 +1,5 @@
+# /app/config/routing_api.yml
+
 blog_posts:
-    type: res
+    type: rest
     resource: AppBundle\Controller\BlogPostsController

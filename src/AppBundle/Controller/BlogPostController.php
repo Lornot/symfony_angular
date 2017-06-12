@@ -6,9 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\BlogPostType;
 use AppBundle\Entity\BlogPost;
+use FOS\RestBundle\Controller\Annotations\RouteResource;
 
+/**
+ * Class BlogPostController
+ * @package AppBundle\Controller
+ *
+ * @RouteResource("post")
+ */
 class BlogPostController extends Controller
 {
+
+
+    public function getAction(int $id)
+    {
+        return $this->getDoctrine()->getRepository('AppBundle:BlogPost')->find($id);
+    }
 
     public function listAction()
     {
