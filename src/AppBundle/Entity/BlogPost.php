@@ -2,23 +2,30 @@
 
 namespace AppBundle\Entity;
 
+use JMS\Serializer\Annotation as JMSSerializer;
+use Doctrine\ORM\Mapping as ORM;
 /**
- * BlogPost
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\BlogPostRepository")
+ * @ORM\Table(name="blog_post")
+ * @JMSSerializer\ExclusionPolicy("all")
  */
-class BlogPost
+class BlogPost implements \JsonSerializable
 {
     /**
      * @var int
+     * @JMSSerializer\Expose
      */
     private $id;
 
     /**
      * @var string
+     * @JMSSerializer\Expose
      */
     private $title;
 
     /**
      * @var string
+     * @JMSSerializer\Expose
      */
     private $body;
 
@@ -79,6 +86,18 @@ class BlogPost
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id'    => $this->id,
+            'title' => $this->title,
+            'body'  => $this->body,
+        ];
     }
 }
 

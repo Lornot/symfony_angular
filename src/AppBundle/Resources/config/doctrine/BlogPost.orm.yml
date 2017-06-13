@@ -1,6 +1,6 @@
 AppBundle\Entity\BlogPost:
     type: entity
-    table: null
+    table: blog_post
     repositoryClass: AppBundle\Repository\BlogPostRepository
     id:
         id:

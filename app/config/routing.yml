@@ -23,6 +23,9 @@ NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix: "/doc"
 
+get:
+    path: /get/{id}
+    defaults: {_controller: AppBundle:BlogPost:get}
 
 api:
     type: rest
