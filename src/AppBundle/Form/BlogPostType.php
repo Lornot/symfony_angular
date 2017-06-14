@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class BlogPostType extends AbstractType
 {
@@ -15,9 +16,9 @@ class BlogPostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('body')
-            ->add('submit', SubmitType::class);
+            ->add('title', TextType::class)
+            ->add('body', TextType::class);
+            //->add('submit', SubmitType::class);
     }
     
     /**
@@ -35,7 +36,7 @@ class BlogPostType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_blogpost';
+        return 'blog_post';
     }
 
 

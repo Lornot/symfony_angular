@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\BlogPost;
-use AppBundle\Entity\BlogPostRepository;
+use AppBundle\Repository\BlogPostRepository;
 use AppBundle\Form\BlogPostType;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
@@ -19,14 +19,14 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 /**
- * Class BlogPostController
+ * Class BlogPostsController
  * @package AppBundle\Controller
  *
  * @RouteResource("post")
  */
-class BlogPostController extends FOSRestController implements ClassResourceInterface
+class BlogPostsController extends FOSRestController implements ClassResourceInterface
 {
 
     /**
@@ -48,6 +48,8 @@ class BlogPostController extends FOSRestController implements ClassResourceInter
     public function getAction(int $id)
     {
 
+
+
         $blogPost = $this->getBlogPostRepository()->createFindOneByIdQuery($id)->getSingleResult();
 
         if ($blogPost === null) {
@@ -57,27 +59,79 @@ class BlogPostController extends FOSRestController implements ClassResourceInter
         return $blogPost;
     }
 
+    /**
+     * Gets a collection of BlogPosts
+     *
+     * @return array
+     *
+     * @ApiDoc(
+     *     output="AppBundle\Entity\BlogPost",
+     *     statusCodes={
+     *         200 = "Returned when successful",
+     *         404 = "Return when not found"
+     *     }
+     * )
+     */
+    public function cgetAction()
+    {
+        return $this->getBlogPostRepository()->createFindAllQuery()->getResult();
+    }
+
+    /**
+     * Gets a collection of BlogPosts
+     *
+     * @return array
+     *
+     * @ApiDoc(
+     *     input="AppBundle\Form\Type\BlogPostType",
+     *     output="AppBundle\Entity\BlogPost",
+     *     statusCodes={
+     *         201 = "Returned when a new blog post has been successfully created",
+     *         404 = "Return when not found"
+     *     }
+     * )
+     */
+    public function postAction(Request $request)
+    {
+        $form = $this->createForm(BlogPostType::class, null, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($request->request->all());
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+        /**
+         * @var $blogPost BlogPost
+         */
+        $blogPost = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($blogPost);
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $blogPost->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get', $routeOptions, Response::HTTP_CREATED);
+    }
+
     public function listAction()
     {
-
         $manager = $this->getDoctrine()->getManager();
         $posts = $manager->getRepository('AppBundle:BlogPost')->findAll();
 
         return $this->render('BlogPosts/list.html.twig',[
             'posts' => $posts
         ]);
-
-    }
-
-    public function collectionGetAction()
-    {
-
     }
 
     public function createAction(Request $request)
     {
         $form = $this->createForm(BlogPostType::class);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -132,7 +186,7 @@ class BlogPostController extends FOSRestController implements ClassResourceInter
 
     private function getBlogPostRepository()
     {
-        return $this->getDoctrine()->getManager()->getRepository('AppBundle:BlogPost');
+        return $this->get('crv.doctrine_entity_repository.blog_post');
     }
 
 }

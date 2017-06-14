@@ -4,19 +4,19 @@ app:
 
 list:
     path: /list
-    defaults: {_controller: AppBundle:BlogPost:list}
+    defaults: {_controller: AppBundle:BlogPosts:list}
 
 create:
     path: /create
-    defaults: {_controller: AppBundle:BlogPost:create}
+    defaults: {_controller: AppBundle:BlogPosts:create}
 
 edit:
     path: /edit/{blogPost}
-    defaults: {_controller: AppBundle:BlogPost:edit}
+    defaults: {_controller: AppBundle:BlogPosts:edit}
 
 delete:
     path: /delete/{blogPost}
-    defaults: {_controller: AppBundle:BlogPost:delete}
+    defaults: {_controller: AppBundle:BlogPosts:delete}
 
 
 NelmioApiDocBundle:
@@ -25,7 +25,15 @@ NelmioApiDocBundle:
 
 get:
     path: /get/{id}
-    defaults: {_controller: AppBundle:BlogPost:get}
+    defaults: {_controller: AppBundle:BlogPosts:get}
+
+cget:
+    path: /cget
+    defaults: {_controller: AppBundle:BlogPosts:cget}
+
+post:
+    path: /post
+    defaults: {_controller: AppBundle:BlogPosts:post}
 
 api:
     type: rest

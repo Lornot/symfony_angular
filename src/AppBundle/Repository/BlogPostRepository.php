@@ -27,4 +27,17 @@ class BlogPostRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
+    public function createFindAllQuery()
+    {
+        $query = $this->_em->createQuery(
+            "
+                SELECT bp
+                FROM AppBundle:BlogPost bp
+            "
+        );
+
+        return $query;
+    }
+
+
 }

@@ -2,4 +2,4 @@
 
 blog_posts:
     type: rest
-    resource: AppBundle\Controller\BlogPostController
+    resource: AppBundle\Controller\BlogPostsController

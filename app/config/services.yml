@@ -5,6 +5,7 @@ parameters:
 
 services:
 
+
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services
@@ -35,3 +36,9 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    crv.doctrine_entity_repository.blog_post:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - AppBundle\Entity\BlogPost
+        public: true
