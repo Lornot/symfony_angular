@@ -134,6 +134,8 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     public function putAction(Request $request, int $id)
     {
         $blogPost = $this->getBlogPostRepository()->find($id);
+        if ($blogPost == null)
+            return new View(null, Response::HTTP_NOT_FOUND);
 
         $form = $this->createForm(BlogPostType::class, $blogPost, [
             'csrf_protection' => false,
@@ -178,6 +180,8 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     public function patchAction(Request $request, int $id)
     {
         $blogPost = $this->getBlogPostRepository()->find($id);
+        if ($blogPost == null)
+            return new View(null, Response::HTTP_NOT_FOUND);
 
         $form = $this->createForm(BlogPostType::class, $blogPost, [
             'csrf_protection' => false,
@@ -256,18 +260,45 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
         ]);
     }
 
-    public function deleteAction(Request $request, BlogPost $blogPost)
+    /**
+     * @param int $id
+     * @return View
+     *
+     *     * @ApiDoc(
+     *     input="AppBundle\Form\Type\BlogPostType",
+     *     output="AppBundle\Entity\BlogPost",
+     *     statusCodes={
+     *         204 = "Returned when an existing blog post has been successfully deleted",
+     *         404 = "Return when not found"
+     *     }
+     * )
+     */
+    public function deleteAction(int $id)
     {
-        if ($blogPost === null)
-            return $this->redirectToRoute('list');
+        $blogPost = $this->getBlogPostRepository()->find($id);
+
+        if ($blogPost == null)
+            return new View(null, Response::HTTP_NOT_FOUND);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($blogPost);
         $manager->flush();
 
-        return $this->redirectToRoute('list');
+        return new View(null, Response::HTTP_NO_CONTENT);
     }
 
+    /** delete for not api */
+//    public function deleteAction(Request $request, BlogPost $blogPost)
+//    {
+//        if ($blogPost === null)
+//            return $this->redirectToRoute('list');
+//
+//        $manager = $this->getDoctrine()->getManager();
+//        $manager->remove($blogPost);
+//        $manager->flush();
+//
+//        return $this->redirectToRoute('list');
+//    }
 
     private function getBlogPostRepository()
     {

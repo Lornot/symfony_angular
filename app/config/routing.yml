@@ -15,9 +15,8 @@ edit:
     defaults: {_controller: AppBundle:BlogPosts:edit}
 
 delete:
-    path: /delete/{blogPost}
+    path: /delete/{id}
     defaults: {_controller: AppBundle:BlogPosts:delete}
-
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
