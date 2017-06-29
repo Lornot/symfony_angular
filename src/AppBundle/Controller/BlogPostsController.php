@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 /**
  * Class BlogPostsController
  * @package AppBundle\Controller
@@ -47,8 +48,6 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      */
     public function getAction(int $id)
     {
-
-
 
         $blogPost = $this->getBlogPostRepository()->createFindOneByIdQuery($id)->getSingleResult();
 
@@ -78,9 +77,8 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     }
 
     /**
-     * Gets a collection of BlogPosts
-     *
-     * @return array
+     * @param Request $request
+     * @return View|Symfony\Component\Form\Form
      *
      * @ApiDoc(
      *     input="AppBundle\Form\Type\BlogPostType",
@@ -117,6 +115,93 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
         ];
 
         return $this->routeRedirectView('get', $routeOptions, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @param Request $request
+     * @param int     $id
+     * @return View|Symfony\Component\Form\Form
+     *
+     * @ApiDoc(
+     *     input="AppBundle\Form\Type\BlogPostType",
+     *     output="AppBundle\Entity\BlogPost",
+     *     statusCodes={
+     *         201 = "Returned when an existing blog post has been successfully updated",
+     *         400 = "Returned when errors"
+     *     }
+     * )
+     */
+    public function putAction(Request $request, int $id)
+    {
+        $blogPost = $this->getBlogPostRepository()->find($id);
+
+        $form = $this->createForm(BlogPostType::class, $blogPost, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($request->request->all());
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+        /**
+         * @var $blogPost BlogPost
+         */
+        $blogPost = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $blogPost->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get', $routeOptions, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param Request $request
+     * @param int     $id
+     * @return View|Symfony\Component\Form\Form
+     *
+     * @ApiDoc(
+     *     input="AppBundle\Form\Type\BlogPostType",
+     *     output="AppBundle\Entity\BlogPost",
+     *     statusCodes={
+     *         201 = "Returned when an existing blog post has been successfully updated",
+     *         400 = "Returned when errors",
+     *         204 = "Return when not found"
+     *     }
+     * )
+     */
+    public function patchAction(Request $request, int $id)
+    {
+        $blogPost = $this->getBlogPostRepository()->find($id);
+
+        $form = $this->createForm(BlogPostType::class, $blogPost, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($request->request->all(), false);
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+        /**
+         * @var $blogPost BlogPost
+         */
+        $blogPost = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $blogPost->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 
     public function listAction()

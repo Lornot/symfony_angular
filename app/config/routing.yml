@@ -35,6 +35,14 @@ post:
     path: /post
     defaults: {_controller: AppBundle:BlogPosts:post}
 
+put:
+    path: /put/{id}
+    defaults: {_controller: AppBundle:BlogPosts:put}
+
+patch:
+    path: /patch/{id}
+    defaults: {_controller: AppBundle:BlogPosts:patch}
+
 api:
     type: rest
     resource: "routing_api.yml"
