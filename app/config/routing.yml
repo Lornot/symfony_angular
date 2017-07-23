@@ -2,45 +2,9 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
-list:
-    path: /list
-    defaults: {_controller: AppBundle:BlogPosts:list}
-
-create:
-    path: /create
-    defaults: {_controller: AppBundle:BlogPosts:create}
-
-edit:
-    path: /edit/{blogPost}
-    defaults: {_controller: AppBundle:BlogPosts:edit}
-
-delete:
-    path: /delete/{id}
-    defaults: {_controller: AppBundle:BlogPosts:delete}
-
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix: "/doc"
-
-get:
-    path: /get/{id}
-    defaults: {_controller: AppBundle:BlogPosts:get}
-
-cget:
-    path: /cget
-    defaults: {_controller: AppBundle:BlogPosts:cget}
-
-post:
-    path: /post
-    defaults: {_controller: AppBundle:BlogPosts:post}
-
-put:
-    path: /put/{id}
-    defaults: {_controller: AppBundle:BlogPosts:put}
-
-patch:
-    path: /patch/{id}
-    defaults: {_controller: AppBundle:BlogPosts:patch}
 
 api:
     type: rest
