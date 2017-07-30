@@ -4,23 +4,16 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\BlogPost;
-use AppBundle\Repository\BlogPostRepository;
 use AppBundle\Form\BlogPostType;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\View\RouteRedirectView;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Form;
+
 /**
  * Class BlogPostsController
  * @package AppBundle\Controller
